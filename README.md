@@ -1,51 +1,44 @@
-# Multi-Agent Blog Generator
+# Autonomous AI Customer Support Team
 
-A production-quality multi-agent system that implements the Orchestrator Pattern using the OpenAI Agents SDK. This system generates high-quality blog posts by orchestrating multiple specialist agents.
+An advanced multi-agent system that collaborates to solve customer support issues using a shared context object and agent-to-agent handoffs with optimized context filtering.
 
 ## 🚀 Features
 
-- **Orchestrator Pattern**: Central manager agent coordinates specialist agents
-- **Five Specialist Agents**:
-  - Research Agent: Gathers information and facts
-  - Outline Agent: Creates structured blog outlines
-  - Writer Agent: Generates content for each section
-  - SEO Agent: Optimizes content for search engines
-  - Editor Agent: Polishes and refines the final content
-- **Structured Data Flow**: Pydantic models ensure consistent data exchange
-- **Quality Validation**: Decision logic validates outputs and re-executes if needed
-- **API Integration**: Compatible with Google Gemini API
+- **Distributed Architecture**: Five specialized agents collaborate without a central orchestrator
+- **Context Filtering**: Each agent receives only the minimal context needed for its task
+- **Token Efficiency**: Reduces token usage by filtering irrelevant information
+- **Complete Workflow**: End-to-end support from query to resolution
+- **Escalation Logic**: Intelligent escalation to human agents when needed
 
 ## 🏗️ Architecture
 
 ```
-User Topic → Research Agent → Outline Agent → Writer Agent → SEO Agent → Editor Agent → Final Blog
+Customer Query → Intent Detection → Knowledge Retrieval → Solution Generation → Escalation Decision → Response Generation
 ```
 
-### Decision Logic
-- Ensures outline has at least 5 sections
-- Ensures blog length exceeds 800 words
-- Re-runs writer agent if content is too short
-- Always runs editor as the final step
+### Agent Responsibilities
+
+1. **Intent Detection Agent**: Identifies the customer's issue category
+2. **Knowledge Retrieval Agent**: Finds relevant documentation
+3. **Solution Generation Agent**: Creates tailored solutions
+4. **Escalation Agent**: Determines if human intervention is needed
+5. **Response Agent**: Crafts the final customer response
 
 ## 📁 Project Structure
 
 ```
-├── main.py              # Orchestrator that manages the complete workflow
-├── models.py           # Pydantic models for structured data flow
-├── specialist_agents.py # Five specialist agents
-├── orchestrator_pattern.py # Demonstrates as_tool functionality
-├── agent_as_tool_example.py # Additional examples of agent tools
-├── test_system.py      # Validates the system models
-├── test_agent.py       # Tests the agent functionality
-└── pyproject.toml      # Project dependencies
+├── support_team_models.py    # Pydantic models for shared context
+├── support_agents.py        # Specialist agents with context filters
+├── support_team_main.py     # Main workflow orchestrator
+└── README.md              # This file
 ```
 
 ## 🛠️ Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/muhammadfawad538/Multi-Agent-Blog-Generator.git
-cd Multi-Agent-Blog-Generator
+git clone https://github.com/yourusername/support-desk-agent.git
+cd support-desk-agent
 ```
 
 2. Install dependencies:
@@ -61,27 +54,26 @@ GEMINI_API_KEY=your_api_key_here
 
 ## 🚀 Usage
 
-Generate a blog post with a specific topic:
+Process a customer query:
 
 ```bash
-python main.py "Your Blog Topic Here"
+python support_team_main.py "Customer complaint or question here"
 ```
 
 Example:
 ```bash
-python main.py "The Future of Artificial Intelligence"
+python support_team_main.py "I'm having trouble logging into my account"
 ```
 
-## 🧩 Pydantic Models
+## 🧩 Context Optimization
 
-The system uses structured Pydantic models for data consistency:
+The system implements context filtering to minimize token usage:
 
-- `ResearchOutput`: Topic, key points, facts, references
-- `OutlineOutput`: Blog title, sections
-- `WriterOutput`: Title, section contents
-- `SEOOutput`: SEO title, meta description, keywords
-- `EditorOutput`: Final blog, readability score, improvements
-- `FinalBlogOutput`: Complete blog with SEO information
+- `filter_context_for_intent_agent()`: Only passes customer query
+- `filter_context_for_knowledge_agent()`: Only passes intent and query
+- `filter_context_for_solution_agent()`: Only passes intent, docs, and query
+- `filter_context_for_escalation_agent()`: Only passes relevant decision factors
+- `filter_context_for_response_agent()`: Only passes solution and conversation history
 
 ## 🤝 Contributing
 
