@@ -8,3 +8,34 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Environment variables
+.env
+
+# API Keys and secrets
+*.key
+*.secret
+*.token
+*.config
+
+# Database files
+*.db
+*.sqlite
+
+# Log files
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
