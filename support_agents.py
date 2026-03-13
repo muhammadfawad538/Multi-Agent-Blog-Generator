@@ -1,9 +1,10 @@
 import os
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
-from agents import Agent, Runner, set_tracing_disabled, handoff
+from agents import Agent, Runner, set_tracing_disabled
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 from support_team_models import SupportContext
+from support_guardrails import shared_input_guardrails, shared_output_guardrails
 
 load_dotenv()
 set_tracing_disabled(True)
@@ -72,7 +73,9 @@ intent_agent = Agent(
     - general_question: General inquiries about products or services
 
     Respond with just the detected intent as a single word. After determining the intent, hand off to the Knowledge Retrieval Agent.""",
-    model=gemini_model
+    model=gemini_model,
+    input_guardrails=shared_input_guardrails,
+    output_guardrails=shared_output_guardrails
 )
 
 # Knowledge Retrieval Agent
@@ -82,7 +85,9 @@ knowledge_agent = Agent(
     Use the customer query and intent to find the most relevant articles, guides, or solutions.
     Return the relevant documents as a list of dictionaries containing 'title', 'content', and 'relevance_score'.
     After retrieving knowledge, hand off to the Solution Generation Agent.""",
-    model=gemini_model
+    model=gemini_model,
+    input_guardrails=shared_input_guardrails,
+    output_guardrails=shared_output_guardrails
 )
 
 # Solution Generation Agent
@@ -92,7 +97,9 @@ solution_agent = Agent(
     Create a clear, actionable solution that addresses the customer's specific issue.
     Consider the customer's query and the knowledge documents when crafting your solution.
     After generating a solution, hand off to the Escalation Agent.""",
-    model=gemini_model
+    model=gemini_model,
+    input_guardrails=shared_input_guardrails,
+    output_guardrails=shared_output_guardrails
 )
 
 # Escalation Agent
@@ -108,7 +115,9 @@ escalation_agent = Agent(
 
     Set escalation_required to true if escalation is needed, otherwise false.
     After making the escalation decision, hand off to the Response Agent.""",
-    model=gemini_model
+    model=gemini_model,
+    input_guardrails=shared_input_guardrails,
+    output_guardrails=shared_output_guardrails
 )
 
 # Response Agent
@@ -119,5 +128,7 @@ response_agent = Agent(
     If no escalation is needed, create a helpful response that includes the solution.
     Ensure the response is empathetic, professional, and directly addresses the customer's query.
     Add the final response to the context and complete the interaction.""",
-    model=gemini_model
+    model=gemini_model,
+    input_guardrails=shared_input_guardrails,
+    output_guardrails=shared_output_guardrails
 )
