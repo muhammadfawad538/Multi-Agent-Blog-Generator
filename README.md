@@ -1,63 +1,51 @@
-# Autonomous AI Customer Support Team
+# Multi-Agent Blog Generator
 
-An advanced multi-agent system that collaborates to solve customer support issues using a shared context object and agent-to-agent handoffs with optimized context filtering, comprehensive guardrails, and persistent session memory.
+A production-quality multi-agent system that implements the Orchestrator Pattern using the OpenAI Agents SDK. This system generates high-quality blog posts by orchestrating multiple specialist agents.
 
 ## 🚀 Features
 
-- **Distributed Architecture**: Five specialized agents collaborate without a central orchestrator
-- **Context Filtering**: Each agent receives only the minimal context needed for its task
-- **Token Efficiency**: Reduces token usage by filtering irrelevant information
-- **Complete Workflow**: End-to-end support from query to resolution
-- **Intelligent Escalation**: Automatic escalation to human agents when needed
-- **Security Guardrails**: Input/output validation to prevent PII exposure and prompt injection
-- **Persistent Sessions**: Customer context and conversation history maintained across interactions
-- **Ticket Management**: Automatic ticket creation and tracking
+- **Orchestrator Pattern**: Central manager agent coordinates specialist agents
+- **Five Specialist Agents**:
+  - Research Agent: Gathers information and facts
+  - Outline Agent: Creates structured blog outlines
+  - Writer Agent: Generates content for each section
+  - SEO Agent: Optimizes content for search engines
+  - Editor Agent: Polishes and refines the final content
+- **Structured Data Flow**: Pydantic models ensure consistent data exchange
+- **Quality Validation**: Decision logic validates outputs and re-executes if needed
+- **API Integration**: Compatible with Google Gemini API
 
 ## 🏗️ Architecture
 
 ```
-Customer Query → Intent Detection → Knowledge Retrieval → Solution Generation → Escalation Decision → Response Generation
+User Topic → Research Agent → Outline Agent → Writer Agent → SEO Agent → Editor Agent → Final Blog
 ```
 
-### Agent Responsibilities
-
-1. **Intent Detection Agent**: Identifies the customer's issue category
-2. **Knowledge Retrieval Agent**: Finds relevant documentation
-3. **Solution Generation Agent**: Creates tailored solutions
-4. **Escalation Agent**: Determines if human intervention is needed
-5. **Response Agent**: Crafts the final customer response
-
-### Security Features
-
-- **PII Detection**: Blocks sensitive information like credit cards, SSNs, and phone numbers
-- **Injection Prevention**: Detects prompt injection attempts and malicious instructions
-- **Output Protection**: Prevents accidental disclosure of internal data
-
-### Session Management
-
-- **Persistent Context**: Customer data saved between interactions
-- **Conversation History**: Maintains context across sessions
-- **Ticket Tracking**: Unique ticket IDs for each support request
-- **Multi-User Isolation**: Separate sessions for different customers
+### Decision Logic
+- Ensures outline has at least 5 sections
+- Ensures blog length exceeds 800 words
+- Re-runs writer agent if content is too short
+- Always runs editor as the final step
 
 ## 📁 Project Structure
 
 ```
-├── support_team_models.py    # Pydantic models for shared context
-├── support_agents.py        # Specialist agents with context filters
-├── support_guardrails.py    # Security guardrails for input/output validation
-├── support_sessions.py      # Session management and persistent storage
-├── support_team_main.py     # Main workflow orchestrator
-├── run_support.bat          # Windows batch file for easy execution
-└── README.md              # This file
+├── main.py              # Orchestrator that manages the complete workflow
+├── models.py           # Pydantic models for structured data flow
+├── specialist_agents.py # Five specialist agents
+├── orchestrator_pattern.py # Demonstrates as_tool functionality
+├── agent_as_tool_example.py # Additional examples of agent tools
+├── test_system.py      # Validates the system models
+├── test_agent.py       # Tests the agent functionality
+└── pyproject.toml      # Project dependencies
 ```
 
 ## 🛠️ Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/support-desk-agent.git
-cd support-desk-agent
+git clone https://github.com/muhammadfawad538/Multi-Agent-Blog-Generator.git
+cd Multi-Agent-Blog-Generator
 ```
 
 2. Install dependencies:
@@ -73,45 +61,27 @@ GEMINI_API_KEY=your_api_key_here
 
 ## 🚀 Usage
 
-Process a customer query:
+Generate a blog post with a specific topic:
 
 ```bash
-python support_team_main.py "Customer complaint or question here" [customer_id]
+python main.py "Your Blog Topic Here"
 ```
 
-Examples:
+Example:
 ```bash
-python support_team_main.py "I'm having trouble logging into my account" user123
-python support_team_main.py "I forgot my password" user456
+python main.py "The Future of Artificial Intelligence"
 ```
 
-## 🧩 Context Optimization
+## 🧩 Pydantic Models
 
-The system implements context filtering to minimize token usage:
+The system uses structured Pydantic models for data consistency:
 
-- `filter_context_for_intent_agent()`: Only passes customer query
-- `filter_context_for_knowledge_agent()`: Only passes intent and query
-- `filter_context_for_solution_agent()`: Only passes intent, docs, and query
-- `filter_context_for_escalation_agent()`: Only passes relevant decision factors
-- `filter_context_for_response_agent()`: Only passes solution and conversation history
-
-## 🛡️ Security Features
-
-### Input Guardrails
-- PII Detection: Blocks credit cards, SSNs, phone numbers, emails
-- Injection Prevention: Detects prompt injection attempts
-
-### Output Guardrails
-- Secret Protection: Blocks API keys, passwords, internal IPs
-- Data Leakage Prevention: Prevents accidental disclosure
-
-## 🔄 Session Management
-
-The system maintains persistent sessions allowing customers to:
-- Resume conversations across different interactions
-- Maintain ticket history
-- Access previous support resolutions
-- Have personalized experiences based on past interactions
+- `ResearchOutput`: Topic, key points, facts, references
+- `OutlineOutput`: Blog title, sections
+- `WriterOutput`: Title, section contents
+- `SEOOutput`: SEO title, meta description, keywords
+- `EditorOutput`: Final blog, readability score, improvements
+- `FinalBlogOutput`: Complete blog with SEO information
 
 ## 🤝 Contributing
 
@@ -120,3 +90,24 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+## Additional Component: Autonomous AI Customer Support Team
+
+This repository also includes an advanced multi-agent system that collaborates to solve customer support issues using a shared context object and agent-to-agent handoffs with optimized context filtering, comprehensive guardrails, and persistent session memory.
+
+### Support Team Features:
+- **Distributed Architecture**: Five specialized agents collaborate without a central orchestrator
+- **Context Filtering**: Each agent receives only the minimal context needed for its task
+- **Token Efficiency**: Reduces token usage by filtering irrelevant information
+- **Complete Workflow**: End-to-end support from query to resolution
+- **Intelligent Escalation**: Automatic escalation to human agents when needed
+- **Security Guardrails**: Input/output validation to prevent PII exposure and prompt injection
+- **Persistent Sessions**: Customer context and conversation history maintained across interactions
+- **Ticket Management**: Automatic ticket creation and tracking
+
+### Support Team Architecture:
+```
+Customer Query → Intent Detection → Knowledge Retrieval → Solution Generation → Escalation Decision → Response Generation
+```
+
+The Autonomous AI Customer Support Team is located in the support-team related files within this repository.
